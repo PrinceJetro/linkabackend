@@ -129,6 +129,17 @@ WSGI_APPLICATION = 'linka.wsgi.application'
 if os.environ.get('DATABASE_URL'):
     import dj_database_url
     DATABASES = {'default': dj_database_url.parse(os.environ['DATABASE_URL'], conn_max_age=0)}
+elif os.environ.get('DB_HOST'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DB_NAME', 'postgres'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+            'PORT': os.environ.get('DB_PORT', '5432'),
+        }
+    }
 else:
     DATABASES = {
         'default': {
